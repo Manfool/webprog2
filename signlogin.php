@@ -33,7 +33,7 @@ echo "Bejelentkezés szükséges ! ";
         switch(count($rows))
         {
           case 0: $belepes_hiba = "Hibás login név - jelszó pár!"; break;
-          case 1: $csaladinev = $rows[0]['csaladi_nev']; $utonev = $rows[0]['uto_nev']; break;
+          case 1: $csaladinev = $rows[0]['csaladi_nev']; $uto_nev = $rows[0]['uto_nev']; break;
           default: $belepes_hiba = "Több felhsználó rendelkezik a megadott login név - jelszó párral!";
         }
         $_SESSION['username'] = $username;
@@ -47,7 +47,7 @@ echo "Bejelentkezés szükséges ! ";
       {
         
         $_POST['csaladi_nev'] = trim($_POST['csaladi_nev']);
-        $_POST['utonev'] = trim($_POST['utonev']);
+        $_POST['uto_nev'] = trim($_POST['uto_nev']);
         $_POST['login_nev'] = trim($_POST['login_nev']);
         $_POST['jelszo_reg'] = trim($_POST['jelszo_reg']);
  
@@ -57,12 +57,11 @@ echo "Bejelentkezés szükséges ! ";
         $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
         switch(count($rows))
         {
-          case 0: $belepes_hiba = true; break;
-          case 1: $belepes_hiba = false; break;
+          case 0: $belepes_hiba = false; break;
           default: $belepes_hiba = true;
         }
 
-        if($_POST['csaladi_nev'] == "" || $_POST['utonev'] == "" || $_POST['login_nev'] == "" || $_POST['jelszo_reg'] == "" ||  $belepes_hiba == true)
+        if($_POST['csaladi_nev'] == "" || $_POST['uto_nev'] == "" || $_POST['login_nev'] == "" || $_POST['jelszo_reg'] == "" ||  $belepes_hiba == true)
         {
           echo "<script>alert('Már létezik ilyen felhasználó/jelszó páros');document.location='signlogin.psp'</script>";
           $regisztracio_hiba = "Hiányzó adatok!";
@@ -71,7 +70,7 @@ echo "Bejelentkezés szükséges ! ";
         {
           $sql = "insert into felhasznalok values (0, :csaladi_nev, :uto_nev, :bejelentkezes, sha1(:jelszo))";
           $sth = $dbh->prepare($sql);
-          if($sth->execute(Array(':csaladi_nev' => $_POST['csaladi_nev'], ':uto_nev' => $_POST['utonev'],
+          if($sth->execute(Array(':csaladi_nev' => $_POST['csaladi_nev'], ':uto_nev' => $_POST['uto_nev'],
                               ':bejelentkezes' => $_POST['login_nev'], ':jelszo' => $_POST['jelszo_reg'])))
           {
             $regisztracio_eredmeny = true;
@@ -103,24 +102,23 @@ echo "Bejelentkezés szükséges ! ";
 
 <body>
     <?php
-    if(isset($csaladinev) && isset($utonev) || isset($regisztracio_eredmeny))
+    if(isset($csaladinev) && isset($uto_nev) || isset($regisztracio_eredmeny))
     {
     echo "<div id=\"eredmeny\">
         ";
-        if(isset($csaladinev) && isset($utonev))
+        if(isset($csaladinev) && isset($uto_nev) && !isset($regisztracio_eredmeny))
         {
-        echo "Bejelentkezett a felhasználó: ".$csaladinev." ".$utonev." (".$_POST['login'].")";
+        echo "Bejelentkezett a felhasználó: ".$csaladinev." ".$uto_nev." (".$_POST['login'].")";
         }
-        if(isset($regisztracio_eredmeny) && $regisztracio_eredmeny)
+        if(isset($regisztracio_eredmeny) )
         {
-        echo "Sikeresen regisztrált felhasználó: ".$_POST['csaladi_nev']." ".$_POST['utonev']." (".$_POST['login_nev'].")";
+          if ($regisztracio_eredmeny)
+            echo "Sikeresen regisztrált felhasználó: ".$_POST['csaladi_nev']." ".$_POST['uto_nev']." (".$_POST['login_nev'].")";
+          else 
+             echo "Sikertelen regisztráció: ".$_POST['csaladi_nev']." ".$_POST['uto_nev']." (".$_POST['login_nev'].")";  
         }
-        elseif(isset($regisztracio_eredmeny) && ! $regisztracio_eredmeny)
-        {
-        echo "Sikertelen regisztráció: ".$_POST['csaladi_nev']." ".$_POST['utonev']." (".$_POST['login_nev'].")";
-        }
-        echo "
-    </div>";
+
+        echo "</div>";
     }
     ?>
     <div class="topnav">
@@ -128,9 +126,10 @@ echo "Bejelentkezés szükséges ! ";
         <a class="active" href="signlogin.php">Bejelentkezés/Regisztráció</a>
         <a href="news.php">Hírek</a>
         <a href="adding.php">Új Hír</a>
-		<a href="reviews.php">Vélemények</a>
+		    <a href="reviews.php">Vélemények</a>
         <a href="addingr.php">Új Vélemény</a>
-		<a href="contact.php">Kapcsolat</a>
+		    <a href="contact.php">Kapcsolat</a>
+        <a href="users.php">Felhasználók</a>
         <a href="logout.php">Kijelentkezés</a>
     </div>
     <h1>Bejelentkezés/Regisztráció</h1>
@@ -148,7 +147,7 @@ echo "Bejelentkezés szükséges ! ";
                 <p style="color:white">Regisztráció</p>
                 
                 <input type="text" name="csaladi_nev" id="csaladi_nev" placeholder="családnév" value="" />
-                <input type="text" name="utonev" id="utonev" placeholder="utónév" value="" />
+                <input type="text" name="uto_nev" id="uto_nev" placeholder="utónév" value="" />
                 <input type="text" name="login_nev" id="login_nev" placeholder="felhasználónév" value="" />
                 <input type="password" name="jelszo_reg" id="jelszo_reg" placeholder="jelszó" value="" />
 

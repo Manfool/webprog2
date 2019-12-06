@@ -68,6 +68,32 @@ if(!isset($_SESSION['username'])){
     
     </div>    
     
+<?php
+class fejleszto {
+  public $fejleszto_nev;
+  public $fejleszto_email;
+
+  function set_name($fejleszto_nev) {
+    $this->fejleszto_nev = $fejleszto_nev;
+  }
+  function get_name() {
+    return $this->fejleszto_nev;
+ 
+  }
+}
+
+$olei = new fejleszto();
+$cegakinekeladomazoldalt = new fejleszto();
+$olei->set_name('Ölei András');
+$cegakinekeladomazoldalt->set_name('Sokpénzkell Kft.');
+
+echo "Fejleszto neve: ".$olei->get_name();
+echo "<br>";
+echo "Szponzor: ".$cegakinekeladomazoldalt->get_name();
+?>
+ 
+
+    
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 </body>

@@ -5,15 +5,12 @@
   print_r($_POST);
   echo "</pre>";
   */
-//ne kapcsold be
   if(isset($_POST['belepes']) || isset($_POST['regisztracio']))
   {
-    echo "lmao";
     try
     {
-      $dbh = new PDO('mysql:host=localhost;dbname=web2', 'root', '',
+      $dbh = new PDO('mysql:host=localhost;dbname=usermanagement', 'root', '',
                     array(PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION));
-      $dbh->query('SET NAMES utf8 COLLATE utf8_hungarian_ci');
 
       if(isset($_POST['belepes'])) {
   

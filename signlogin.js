@@ -19,7 +19,7 @@ $(document).ready(function() {
       "dataType": "json",
       "success": function(data) {
         $("#csaladi_nev").html(data.csaladi_nev);
-        $("#utonev").html(data.utonev);
+        $("#uto_nev").html(data.uto_nev);
         $("#login_nev").html(data.login_nev);
         $("#jelszo").html(data.jelszo);
         $("#eredmeny").show(1000);

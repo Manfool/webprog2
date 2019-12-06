@@ -55,8 +55,37 @@ if(!isset($_SESSION['username'])){
         <a href="reviews.php">Vélemények</a>
         <a href="addingr.php">Új Vélemény</a>
         <a href="contact.php">Kapcsolat</a>
+        <a href="users.php">Felhasználók</a>
         <a href="logout.php">Kijelentkezés</a>
     </div>
+
+
+<?php
+//CLASS gyártás és használat példa 
+class fejleszto {
+  public $fejleszto_nev;
+
+
+  function set_name($fejleszto_nev) {
+    $this->fejleszto_nev = $fejleszto_nev;
+  }
+  function get_name() {
+    return $this->fejleszto_nev;
+ 
+  }
+}
+
+$olei = new fejleszto();
+$cegakinekeladomazoldalt = new fejleszto();
+$olei->set_name('Ölei András');
+$cegakinekeladomazoldalt->set_name('Sokpénzkell Kft.');
+
+echo "Fejleszto neve: ".$olei->get_name();
+echo "<br>";
+echo "Szponzor: ".$cegakinekeladomazoldalt->get_name();
+?>
+ 
+
 
     <h1 class="erzekeny"> Köszöntelek oldalunkon!</h1>
     <p align="center" style="font-size:150%" class="erzekeny"> Oland Kft. nagyon fontos házifeladatot valósít meg webprog 2 órára.</p>
@@ -68,6 +97,7 @@ if(!isset($_SESSION['username'])){
     
     </div>    
     
+
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 </body>
